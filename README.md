@@ -4,6 +4,8 @@
 
 Quiz Hero is a web component used to have website visitor answer a series of questions. It is meant to be a 'screener' questionnaire to qualify or disqualify prospective customers or leads. It aims to be useful for companies that sell products and services that are complex/specialized.
 
+Check out the [live demo](https://tnishimura.github.io/demo/index.html).
+
 ## Installation
 
 To build, run:
