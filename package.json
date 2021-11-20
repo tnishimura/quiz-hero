@@ -1,0 +1,21 @@
+{
+  "name": "quiz-hero",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "npx rollup -c rollup.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "tnishimura",
+  "license": "MIT",
+  "devDependencies": {
+    "rollup": "^2.60.0",
+    "rollup-plugin-uglify": "^6.0.4"
+  },
+  "dependencies": {
+    "hybrids": "^6.1.0"
+  }
+}

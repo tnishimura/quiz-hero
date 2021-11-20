@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <style> 
+      @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap');
+      * {
+        font-family: 'Lato', sans-serif;
+      }
+      quiz-hero {
+        --primary-font: 'Lato', sans-serif;
+        --primary-color: #006c70;
+        --light-color: #6C718B;
+      }
+    </style>
+
+    <script type="module" src="index.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.css">
+</head>
+<body>
+
+  <h1> Quiz Hero Demo </h1>
+  <p> This is a demo of Quiz Hero, an open source web component useful. It is meant to be a 'screener' questionnaire to qualify or disqualify prospective customers. It aims to be useful for companies that sell products and services that are complex/specialized. </p>
+  <p> Demo is below. Open DevTools and View Source to see how simple it is! </p>
+
+  <quiz-hero>
+    <span slot="title">
+      Your Quiz Title Here
+    </span>
+
+    <span slot="success">
+      <div>
+        <h3>Congratulations, you are eligible to use our product!</h3>
+      </div>
+      <div>
+        <p>You are seeing the card because you clicked "success" on the previous card. You can tell your prospective customer that they are a good fit for your product or service.</p>
+        <p>The content of this card is specified in HTML, as a slot. You can include links, a phone number, an appointment component, or any other call-to-action here.</p>
+      </div>
+    </span>
+
+    <span slot="failure">
+      <div>
+        <h2>Sorry, this awesome product isn't for you!</h2>
+      </div>
+      <div>
+        <p>You are seeing the card because you clicked "failure" on the previous card. You can tell your prospective customer that your product or service is not suitable for them. </p>
+        <p>The content of this card is specified in HTML, as a slot.</p>
+      </div>
+    </span>
+  </quiz-hero>
+
+  <script type="module">
+    const questions = [
+    {
+      questionId: "question1",
+      text: "This is a simple yes/no question",
+      description: "This is a simple question. Each question can also have an optional description, like this. You can provide more details here, if the question is complicated. ",
+      answers: [
+        { text: "Yes", value: "yes" , next: "question2" },
+        { text: "No" , value: "no"  , next: "question2" },
+      ],
+      first: true,
+    },
+    {
+      questionId: "question2",
+      text: "A question with custom answers",
+      description: "This is another question. Notice that the answers can have any text you'd like. Also, note that the 'next' value (shown in the source below) are both the same, so both buttons lead to the same question. However, you can open devtools and see that specific answers given are recorded.",
+      answers: [
+        { text: "Left" , value: "left" , next: "question3" },
+        { text: "Right" , value: "right" , next: "question3" },
+      ],
+    },
+    {
+      questionId: "question3",
+      text: "Question with multiple answers",
+      description: "This is a question with multiple possible answers. Each one will lead to different questions. You can specify what question an answer leads to by specifying the 'next' parameter in the questions object.",
+      answers: [
+        { text: "Path 1" , value: "path1", next: "question4a" },
+        { text: "Path 2" , value: "path2", next: "question5a" },
+        { text: "Path 3" , value: "path3", next: "question6a" },
+      ],
+    },
+
+    // Path 1 question
+    {
+      questionId: "question4a",
+      text: "Path 1: A question with only one answer",
+      description: "Welcome to Path 1. This 'path' of questions is separate from Path 2 or 3. This path has only 1 question (this one).",
+      answers: [
+        { text: "Continue", value: "continue" , next: "question7" },
+      ],
+    },
+
+    // Path 2 question
+    {
+      questionId: "question5a",
+      text: "Path 2 Question 1",
+      description: "Welcome to Path 2. This 'path' of questions is separate from Path 1 or 3. This path has 2 questions (including this one).",
+      answers: [
+        { text: "Yes", value: "yes" , next: "question5b" },
+        { text: "No", value: "no" , next: "question5b" },
+      ],
+    },
+
+    {
+      questionId: "question5b",
+      text: "Path 2 Question 2: Only one answer",
+      description: "This is the second question of path. This path has 2 questions (including this one).",
+      answers: [ { text: "Continue", value: "continue" , next: "question7" }, ],
+    },
+
+    // Path 3 questions
+    {
+      questionId: "question6a",
+      text: "Path 3 Question 1 of 3",
+      description: "Welcome to Path 2. This 'path' of questions is separate from Path 1 or 3. This path has 2 questions (including this one).",
+      answers: [
+        { text: "Yes", value: "yes" , next: "question6b" },
+        { text: "No", value: "no" , next: "question6b" },
+      ],
+    },
+
+    {
+      questionId: "question6b",
+      text: "Path 3 Question 2 of 3",
+      description: "Welcome to Path 2. This 'path' of questions is separate from Path 1 or 3. This path has 2 questions (including this one).",
+      answers: [
+        { text: "Yes", value: "yes" , next: "question6c" },
+        { text: "No", value: "no" , next: "question6c" },
+      ],
+    },
+
+    {
+      questionId: "question6c",
+      text: "Path 3 Question 3 of 3",
+      description: "This is the last question of Path 3.",
+      answers: [ { text: "Continue", value: "continue" , next: "question7" }, ],
+    },
+
+    // Final Question
+    {
+      questionId: "question7",
+      text: "Final question",
+      description: "All paths converge to this question. These answers will lead to either the final 'success' or 'failure' screen.",
+      answers: [
+        { text: "Success", value: "success" , next: true },
+        { text: "Fail", value: "fail" , next: false },
+      ],
+    },
+  ];
+
+  const qh = document.querySelector('quiz-hero');
+  qh.questions = questions;
+  qh.addEventListener('quiz-hero-item-answered', ({detail}) => {
+    console.log("Current Answers: ", detail.answers);
+  });
+  qh.addEventListener('quiz-hero-failed', ({detail}) => {
+    console.log("Quiz Hero", detail.answers);
+  });
+  qh.addEventListener('quiz-hero-failed', ({detail}) => {
+    console.log("qhf", detail.answers);
+  });
+  console.log(questions);
+</script>
+
+    </div>
+</body>
+
+</html>
